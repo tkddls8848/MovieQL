@@ -11,3 +11,14 @@ export const HOME_PAGE = gql`
     }
 }
 `
+
+export const MOVIE_DETAILS = gql`
+  query getMovieDetails($movieId:String!){
+    movie(id:$movieId){
+      title
+      medium_cover_image
+      rating
+      description_intro
+    }
+  }
+`
