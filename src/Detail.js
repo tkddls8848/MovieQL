@@ -1,6 +1,41 @@
-import React from "react";
-import { Query } from "react-apollo";
-import { MOVIE_DETAILS } from "./queries";
+import React from "react"
+import { Query } from "react-apollo"
+import { MOVIE_DETAILS } from "./queries"
+import Movie from "./movie"
+import styled from "styled-components"
+
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  margin-bottom: 50px;
+`;
+
+const Card = styled.div`
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  background-color: white;
+  border-radius: 7px;
+`;
+
+const Image = Card.withComponent("img");
+
+const Title = styled.h1`
+  font-size: 24px;
+  margin-bottom: 10px;
+`;
+
+const P = styled.span`
+  margin-bottom: 10px;
+  display: block;
+  font-weight: ${props => (props.bold ? "500" : "400")};
+`;
+
+const MovieContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 0.7fr);
+  flex-wrap: wrap;
+  justify-items: center;
+  margin-top: 50px;
+`;
 
 const Detail = ({
   match: {
@@ -13,10 +48,20 @@ const Detail = ({
       if (error) return "error";
       return (
         <React.Fragment>
-          {data.movie.title}
-          {data.movie.medium_cover_image}
-          {data.movie.rating}
-          {data.movie.description_intro}
+          <Container>
+            <Image src={data.movie.medium_cover_image}></Image>
+            <span>
+              <Title>{data.movie.title}</Title>
+              <P bold>Rating: {data.movie.rating}</P>
+              <P>{data.movie.description_intro}</P>
+            </span>
+          </Container>
+          <Title>Suggestions</Title>
+          <MovieContainer>
+            {data.suggestions.map(movie=> (
+              <Movie key={movie.id} id={movie.id} title={movie.title} rating={movie.rating} poster={movie.medium_cover_image}></Movie>
+            ))}
+          </MovieContainer>
         </React.Fragment>
       );
     }}
