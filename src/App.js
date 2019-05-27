@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {ApolloProvider} from 'react-apollo'
 import client from './apolloClient'
 
-class App extends React {
+class App extends Component {
   render() {
     return (
       <ApolloProvider client={client}>
